@@ -9,9 +9,7 @@ export type UserCreatePassword = Pick<UserAttributes, 'username' | 'name'> & {
   password: string;
 };
 export type UserUpdate = Partial<Pick<UserCreate, 'name' | 'hashedPassword'>>;
-export type UserUpdatePassword = Partial<
-  Pick<UserCreatePassword, 'name' | 'password'>
->;
+export type UserUpdatePassword = Partial<Pick<UserCreatePassword, 'name' | 'password'>>;
 
 export type UserNonSensitive = Omit<UserAttributes, 'hashedPassword'>;
 

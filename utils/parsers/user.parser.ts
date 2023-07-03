@@ -1,17 +1,6 @@
-import User from '../../../sequelize/models/user.model';
 import { UserCreatePassword, UserLogin, UserUpdatePassword } from '../../../types/user.type';
-import { StatusCodes } from '../../errors.type';
 import { parsePassword } from './common/password.parser';
 import { parseString } from './common/string.parser';
-
-export const parseUser = (object: unknown): User => {
-  if (!(object instanceof User)) {
-    const error = new Error('User not found!');
-    error.status = StatusCodes.NOT_FOUND;
-    throw error;
-  }
-  return object;
-};
 
 /* Create User */
 

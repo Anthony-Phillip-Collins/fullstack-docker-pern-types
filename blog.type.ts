@@ -1,8 +1,8 @@
-import User from '../sequelize/models/user.model';
+import { UserAttributes } from './user.type';
 
 export interface BlogAttributes {
   id: number;
-  ownerId?: User['id'];
+  ownerId?: UserAttributes['id'];
   title: string;
   author: string;
   url: string;

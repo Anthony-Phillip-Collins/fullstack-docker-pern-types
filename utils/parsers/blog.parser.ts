@@ -1,17 +1,6 @@
-import Blog from '../../../sequelize/models/blog.model';
 import { BlogCreation, BlogUpdate } from '../../blog.type';
-import { StatusCodes } from '../../errors.type';
 import { parseNumber } from './common/number.parser';
 import { parseString } from './common/string.parser';
-
-export const parseBlog = (object: unknown): Blog => {
-  if (!(object instanceof Blog)) {
-    const error = new Error('Blog not found!');
-    error.status = StatusCodes.NOT_FOUND;
-    throw error;
-  }
-  return object;
-};
 
 export const isNewBlog = (object: unknown): object is BlogCreation => {
   if (!object || typeof object !== 'object') {
