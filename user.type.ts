@@ -1,8 +1,13 @@
+import { BlogAttributes } from './blog.type';
+
 export interface UserAttributes {
   id: number;
   username: string;
   name: string;
   hashedPassword: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  blogs?: BlogAttributes[];
 }
 export type UserCreate = Omit<UserAttributes, 'id'>;
 export type UserCreateInput = Pick<UserAttributes, 'username' | 'name'> & {
