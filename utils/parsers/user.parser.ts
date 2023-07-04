@@ -1,10 +1,10 @@
-import { UserCreatePassword, UserLogin, UserUpdatePassword } from '../../../types/user.type';
+import { UserCreateInput, UserLogin, UserUpdateInput } from '../../../types/user.type';
 import { parsePassword } from './common/password.parser';
 import { parseString } from './common/string.parser';
 
 /* Create User */
 
-export const isUserCreatePassword = (object: unknown): object is UserCreatePassword => {
+export const isUserCreateInput = (object: unknown): object is UserCreateInput => {
   if (!object || typeof object !== 'object') {
     throw new Error('UserField data is missing.');
   }
@@ -12,12 +12,12 @@ export const isUserCreatePassword = (object: unknown): object is UserCreatePassw
   return mandatory.filter((p) => p in object).length === mandatory.length;
 };
 
-export const parseUserCreatePassword = (object: unknown): UserCreatePassword => {
-  if (!isUserCreatePassword(object)) {
+export const parseUserCreateInput = (object: unknown): UserCreateInput => {
+  if (!isUserCreateInput(object)) {
     throw new Error('Some UserFields are missing. Needs username, name and password.');
   }
 
-  const newUser: UserCreatePassword = {
+  const newUser: UserCreateInput = {
     username: parseString(object.username, 'username'),
     name: parseString(object.name, 'name'),
     password: parsePassword(object.password),
@@ -28,7 +28,7 @@ export const parseUserCreatePassword = (object: unknown): UserCreatePassword => 
 
 /* Update User */
 
-export const isUserUpdatePassword = (object: unknown): object is UserUpdatePassword => {
+export const isUserUpdateInput = (object: unknown): object is UserUpdateInput => {
   if (!object || typeof object !== 'object') {
     throw new Error('User data is missing.');
   }
@@ -36,12 +36,12 @@ export const isUserUpdatePassword = (object: unknown): object is UserUpdatePassw
   return optional.filter((p) => p in object).length > 0;
 };
 
-export const parseUserUpdatePassword = (object: unknown): UserUpdatePassword => {
-  if (!isUserUpdatePassword(object)) {
+export const parseUserUpdateInput = (object: unknown): UserUpdateInput => {
+  if (!isUserUpdateInput(object)) {
     throw new Error('Only name and password can be updated.');
   }
 
-  const updateUser: UserUpdatePassword = {};
+  const updateUser: UserUpdateInput = {};
 
   if ('name' in object) updateUser.name = parseString(object.name, 'name');
   if ('password' in object) updateUser.password = parsePassword(object.password);

@@ -5,11 +5,11 @@ export interface UserAttributes {
   hashedPassword: string;
 }
 export type UserCreate = Omit<UserAttributes, 'id'>;
-export type UserCreatePassword = Pick<UserAttributes, 'username' | 'name'> & {
+export type UserCreateInput = Pick<UserAttributes, 'username' | 'name'> & {
   password: string;
 };
 export type UserUpdate = Partial<Pick<UserCreate, 'name' | 'hashedPassword'>>;
-export type UserUpdatePassword = Partial<Pick<UserCreatePassword, 'name' | 'password'>>;
+export type UserUpdateInput = Partial<Pick<UserCreateInput, 'name' | 'password'>>;
 
 export type UserNonSensitive = Omit<UserAttributes, 'hashedPassword'>;
 
@@ -18,4 +18,4 @@ export interface UserWithToken extends UserForToken {
   token: string;
 }
 
-export type UserLogin = Pick<UserCreatePassword, 'username' | 'password'>;
+export type UserLogin = Pick<UserCreateInput, 'username' | 'password'>;
