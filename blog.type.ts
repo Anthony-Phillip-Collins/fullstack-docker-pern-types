@@ -12,3 +12,7 @@ export interface BlogAttributes {
 }
 export type BlogCreation = Omit<BlogAttributes, 'id'>;
 export type BlogUpdate = Pick<BlogAttributes, 'likes'>;
+
+export interface BlogQuery {
+  search?: string;
+}

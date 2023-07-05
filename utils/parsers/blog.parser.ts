@@ -1,4 +1,4 @@
-import { BlogCreation, BlogUpdate } from '../../blog.type';
+import { BlogCreation, BlogQuery, BlogUpdate } from '../../blog.type';
 import { parseNumber } from './common/number.parser';
 import { parseString } from './common/string.parser';
 
@@ -44,4 +44,16 @@ export const parseUpdateBlog = (object: unknown): BlogUpdate => {
   };
 
   return updateBlog;
+};
+
+export const isBlogQuery = (object: unknown): object is BlogQuery => {
+  if (!object || typeof object !== 'object') {
+    return false;
+  }
+  const optional = ['search'];
+  return optional.filter((p) => p in object).length > 0;
+};
+
+export const parseBlogQuery = (object: unknown): BlogQuery => {
+  return isBlogQuery(object) ? object : {};
 };
