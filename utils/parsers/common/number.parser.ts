@@ -1,3 +1,6 @@
+import { getError } from '../../../../utils/middleware/errorHandler';
+import { StatusCodes } from '../../../errors.type';
+
 export const isNumber = (value: unknown): value is number => {
   const val = Number(value);
   return typeof val === 'number' || !isNaN(val);
@@ -5,11 +8,11 @@ export const isNumber = (value: unknown): value is number => {
 
 export const parseNumber = (value: unknown, prop?: unknown): number => {
   if (!isNumber(value) || (isNumber(value) && value < 0)) {
-    let errorMessage = `The value provided is not a number: "${value}"`;
+    let message = `The value provided is not a number: "${value}"`;
     if (prop && isNumber(prop)) {
-      errorMessage = `The value of ${prop} is invalid: "${value}"`;
+      message = `The value of ${prop} is invalid: "${value}"`;
     }
-    throw new Error(errorMessage);
+    throw getError({ message, status: StatusCodes.BAD_REQUEST });
   }
   return value;
 };

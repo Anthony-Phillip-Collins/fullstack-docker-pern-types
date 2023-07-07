@@ -1,10 +1,12 @@
+import { getError } from '../../../utils/middleware/errorHandler';
 import { BlogCreation, BlogQuery, BlogUpdate } from '../../blog.type';
+import { StatusCodes } from '../../errors.type';
 import { parseNumber } from './common/number.parser';
 import { parseString } from './common/string.parser';
 
 export const isNewBlog = (object: unknown): object is BlogCreation => {
   if (!object || typeof object !== 'object') {
-    throw new Error('Blog data is missing.');
+    throw getError({ message: 'Blog data is missing.', status: StatusCodes.BAD_REQUEST });
   }
   const mandatory = ['author', 'title', 'url', 'likes'];
   return mandatory.filter((p) => p in object).length === mandatory.length;
@@ -12,7 +14,10 @@ export const isNewBlog = (object: unknown): object is BlogCreation => {
 
 export const parseNewBlog = (object: unknown): BlogCreation => {
   if (!isNewBlog(object)) {
-    throw new Error('Some Blog data fields are missing. Needs author, title, url and likes.');
+    throw getError({
+      message: 'Some Blog data fields are missing. Needs author, title, url and likes.',
+      status: StatusCodes.BAD_REQUEST,
+    });
   }
 
   const newBlog: BlogCreation = {
@@ -27,7 +32,7 @@ export const parseNewBlog = (object: unknown): BlogCreation => {
 
 export const isUpdateBlog = (object: unknown): object is BlogUpdate => {
   if (!object || typeof object !== 'object') {
-    throw new Error('Blog data is missing.');
+    throw getError({ message: 'Blog data is missing.', status: StatusCodes.BAD_REQUEST });
   }
   const mandatory = ['likes'];
   const exact = Object.keys(object).length === mandatory.length;
@@ -36,7 +41,7 @@ export const isUpdateBlog = (object: unknown): object is BlogUpdate => {
 
 export const parseUpdateBlog = (object: unknown): BlogUpdate => {
   if (!isUpdateBlog(object)) {
-    throw new Error('Only likes can be updated.');
+    throw getError({ message: 'Only likes can be updated.', status: StatusCodes.BAD_REQUEST });
   }
 
   const updateBlog: BlogUpdate = {

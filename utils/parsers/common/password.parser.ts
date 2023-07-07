@@ -1,3 +1,5 @@
+import { getError } from '../../../../utils/middleware/errorHandler';
+import { StatusCodes } from '../../../errors.type';
 import { isString } from './string.parser';
 
 export const isPassword = (text: unknown): text is string => {
@@ -6,8 +8,10 @@ export const isPassword = (text: unknown): text is string => {
 
 export const parsePassword = (value: unknown): string => {
   if (!value || !isPassword(value)) {
-    const errorMessage = `Password not accepted. It has to be at least 3 characters long!`;
-    throw new Error(errorMessage);
+    throw getError({
+      message: 'Password not accepted. It has to be at least 3 characters long!',
+      status: StatusCodes.BAD_REQUEST,
+    });
   }
   return value;
 };

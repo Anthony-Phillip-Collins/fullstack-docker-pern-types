@@ -5,18 +5,31 @@ export interface UserAttributes {
   username: string;
   name: string;
   hashedPassword: string;
+  admin: boolean;
+  disabled: boolean;
   createdAt?: Date;
   updatedAt?: Date;
   blogs?: BlogAttributes[];
 }
-export type UserCreate = Omit<UserAttributes, 'id'>;
-export type UserCreateInput = Pick<UserAttributes, 'username' | 'name'> & {
+
+type Mandatory = Pick<UserAttributes, 'username' | 'name' | 'hashedPassword'>;
+type Optional = Partial<Pick<UserAttributes, 'admin' | 'disabled'>>;
+
+export type UserCreate = Mandatory & Optional;
+
+export type UserCreateInput = Omit<UserCreate, 'hashedPassword'> & {
   password: string;
 };
-export type UserUpdate = Partial<Pick<UserCreate, 'name' | 'hashedPassword'>>;
-export type UserUpdateInput = Partial<Pick<UserCreateInput, 'name' | 'password'>>;
 
-export type UserNonSensitive = Omit<UserAttributes, 'hashedPassword'>;
+export type UserUpdateAsAdmin = Partial<Omit<UserCreate, 'username'>>;
+export type UserUpdateAsAdminInput = Partial<Omit<UserUpdateAsAdmin, 'hashedPassword'>> & {
+  password?: UserCreateInput['password'];
+};
+
+export type UserUpdateAsUser = Partial<Omit<UserUpdateAsAdmin, 'admin' | 'disabled'>>;
+export type UserUpdateAsUserInput = Partial<Omit<UserUpdateAsUser, 'hashedPassword'>> & {
+  password?: UserCreateInput['password'];
+};
 
 export type UserForToken = Pick<UserAttributes, 'username' | 'name'>;
 export interface UserWithToken extends UserForToken {

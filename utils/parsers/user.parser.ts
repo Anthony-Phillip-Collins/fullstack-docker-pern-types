@@ -1,4 +1,7 @@
-import { UserCreateInput, UserLogin, UserUpdateInput } from '../../../types/user.type';
+import { UserCreateInput, UserLogin, UserUpdateAsAdminInput, UserUpdateAsUserInput } from '../../../types/user.type';
+import { getError } from '../../../utils/middleware/errorHandler';
+import { StatusCodes } from '../../errors.type';
+import { parseBoolean } from './common/boolean.parser';
 import { parsePassword } from './common/password.parser';
 import { parseString } from './common/string.parser';
 
@@ -6,7 +9,7 @@ import { parseString } from './common/string.parser';
 
 export const isUserCreateInput = (object: unknown): object is UserCreateInput => {
   if (!object || typeof object !== 'object') {
-    throw new Error('UserField data is missing.');
+    throw getError({ message: 'UserField data is missing.', status: StatusCodes.BAD_REQUEST });
   }
   const mandatory = ['username', 'name', 'password'];
   return mandatory.filter((p) => p in object).length === mandatory.length;
@@ -14,37 +17,70 @@ export const isUserCreateInput = (object: unknown): object is UserCreateInput =>
 
 export const parseUserCreateInput = (object: unknown): UserCreateInput => {
   if (!isUserCreateInput(object)) {
-    throw new Error('Some UserFields are missing. Needs username, name and password.');
+    throw getError({
+      message: 'Some UserFields are missing. Needs username, name, password. Fields admin and disabled are optional.',
+      status: StatusCodes.BAD_REQUEST,
+    });
   }
 
   const newUser: UserCreateInput = {
     username: parseString(object.username, 'username'),
     name: parseString(object.name, 'name'),
     password: parsePassword(object.password),
+    admin: parseBoolean(object.admin, 'admin', true),
+    disabled: parseBoolean(object.disabled, 'disabled', true),
   };
 
   return newUser;
 };
 
-/* Update User */
+/* Update User as User */
 
-export const isUserUpdateInput = (object: unknown): object is UserUpdateInput => {
+export const isUserUpdateAsUserInput = (object: unknown): object is UserUpdateAsUserInput => {
   if (!object || typeof object !== 'object') {
-    throw new Error('User data is missing.');
+    throw getError({ message: 'User data is missing.', status: StatusCodes.BAD_REQUEST });
   }
   const optional = ['name', 'password'];
   return optional.filter((p) => p in object).length > 0;
 };
 
-export const parseUserUpdateInput = (object: unknown): UserUpdateInput => {
-  if (!isUserUpdateInput(object)) {
-    throw new Error('Only name and password can be updated.');
+export const parseUserUpdateAsUserInput = (object: unknown): UserUpdateAsUserInput => {
+  if (!isUserUpdateAsUserInput(object)) {
+    throw getError({ message: 'Only name and password can be updated.', status: StatusCodes.BAD_REQUEST });
   }
 
-  const updateUser: UserUpdateInput = {};
+  const updateUser: UserUpdateAsUserInput = {};
 
   if ('name' in object) updateUser.name = parseString(object.name, 'name');
   if ('password' in object) updateUser.password = parsePassword(object.password);
+
+  return updateUser;
+};
+
+/* Update User as Admin */
+
+export const isUserUpdateAsAdminInput = (object: unknown): object is UserUpdateAsAdminInput => {
+  if (!object || typeof object !== 'object') {
+    throw getError({ message: 'User data is missing.', status: StatusCodes.BAD_REQUEST });
+  }
+  const optional = ['name', 'password', 'admin', 'disabled'];
+  return optional.filter((p) => p in object).length > 0;
+};
+
+export const parseUserUpdateAsAdminInput = (object: unknown): UserUpdateAsAdminInput => {
+  if (!isUserUpdateAsAdminInput(object)) {
+    throw getError({
+      message: 'Only name, password, admin and disabled can be updated.',
+      status: StatusCodes.BAD_REQUEST,
+    });
+  }
+
+  const updateUser: UserUpdateAsAdminInput = {};
+
+  if ('name' in object) updateUser.name = parseString(object.name, 'name');
+  if ('password' in object) updateUser.password = parsePassword(object.password);
+  if ('admin' in object) updateUser.admin = parseBoolean(object.admin, 'admin');
+  if ('disabled' in object) updateUser.disabled = parseBoolean(object.disabled, 'disabled');
 
   return updateUser;
 };
@@ -53,7 +89,7 @@ export const parseUserUpdateInput = (object: unknown): UserUpdateInput => {
 
 export const isUserLogin = (object: unknown): object is UserLogin => {
   if (!object || typeof object !== 'object') {
-    throw new Error('Login data is missing.');
+    throw getError({ message: 'Login data is missing.', status: StatusCodes.BAD_REQUEST });
   }
   const mandatory = ['username', 'password'];
   return mandatory.filter((p) => p in object).length === mandatory.length;
@@ -61,7 +97,7 @@ export const isUserLogin = (object: unknown): object is UserLogin => {
 
 export const parseUserLogin = (object: unknown): UserLogin => {
   if (!isUserLogin(object)) {
-    throw new Error('Provide username and password to log in.');
+    throw getError({ message: 'Provide username and password to log in.', status: StatusCodes.BAD_REQUEST });
   }
 
   const loginFields: UserLogin = {

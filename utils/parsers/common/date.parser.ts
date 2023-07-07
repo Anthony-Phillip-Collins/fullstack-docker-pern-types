@@ -1,3 +1,5 @@
+import { getError } from '../../../../utils/middleware/errorHandler';
+import { StatusCodes } from '../../../errors.type';
 import { isString } from './string.parser';
 
 const hasDateFormat = (value: string): boolean => {
@@ -23,7 +25,7 @@ export const parseDate = (value: unknown, prop?: unknown): string => {
     if (prop && isString(prop)) {
       errorMessage = `The value of ${prop} is invalid: "${value}"`;
     }
-    throw new Error(errorMessage);
+    throw getError({ message: errorMessage, status: StatusCodes.BAD_REQUEST });
   }
   return value;
 };

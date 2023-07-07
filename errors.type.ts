@@ -27,3 +27,8 @@ export enum ErrorNames {
 export interface ErrorResponse {
   error: { message: string };
 }
+
+export interface ErrorBody {
+  message: string;
+  status: number;
+}
