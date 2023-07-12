@@ -6,6 +6,7 @@ export interface BlogAttributes {
   author: string;
   url: string;
   likes: number;
+  year: number;
   createdAt?: Date;
   updatedAt?: Date;
   ownerId?: UserAttributes['id'];

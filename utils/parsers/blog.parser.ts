@@ -8,14 +8,14 @@ export const isNewBlog = (object: unknown): object is BlogCreation => {
   if (!object || typeof object !== 'object') {
     throw getError({ message: 'Blog data is missing.', status: StatusCodes.BAD_REQUEST });
   }
-  const mandatory = ['author', 'title', 'url', 'likes'];
+  const mandatory = ['author', 'title', 'url', 'likes', 'year'];
   return mandatory.filter((p) => p in object).length === mandatory.length;
 };
 
 export const parseNewBlog = (object: unknown): BlogCreation => {
   if (!isNewBlog(object)) {
     throw getError({
-      message: 'Some Blog data fields are missing. Needs author, title, url and likes.',
+      message: 'Some Blog data fields are missing. Needs author, title, url, likes and year.',
       status: StatusCodes.BAD_REQUEST,
     });
   }
@@ -25,6 +25,7 @@ export const parseNewBlog = (object: unknown): BlogCreation => {
     title: parseString(object.title, 'title'),
     url: parseString(object.url, 'url'),
     likes: parseNumber(object.likes, 'likes'),
+    year: parseNumber(object.year, 'year'),
   };
 
   return newBlog;
