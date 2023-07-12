@@ -1,4 +1,4 @@
-import { getError } from '../../../../utils/middleware/errorHandler';
+import { getError } from '../../../../util/middleware/errorHandler';
 import { StatusCodes } from '../../../errors.type';
 
 export const isNumber = (value: unknown): value is number => {

@@ -1,4 +1,4 @@
-import { getError } from '../../../utils/middleware/errorHandler';
+import { getError } from '../../../util/middleware/errorHandler';
 import { BlogCreation, BlogQuery, BlogUpdate } from '../../blog.type';
 import { StatusCodes } from '../../errors.type';
 import { parseNumber } from './common/number.parser';

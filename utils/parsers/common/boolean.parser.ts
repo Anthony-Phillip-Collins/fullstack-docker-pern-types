@@ -1,4 +1,4 @@
-import { getError } from '../../../../utils/middleware/errorHandler';
+import { getError } from '../../../../util/middleware/errorHandler';
 import { StatusCodes } from '../../../errors.type';
 
 export const isBoolean = (value: unknown): value is boolean => {

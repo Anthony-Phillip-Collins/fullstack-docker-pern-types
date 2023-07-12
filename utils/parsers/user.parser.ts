@@ -1,5 +1,5 @@
 import { UserCreateInput, UserLogin, UserUpdateAsAdminInput, UserUpdateAsUserInput } from '../../../types/user.type';
-import { getError } from '../../../utils/middleware/errorHandler';
+import { getError } from '../../../util/middleware/errorHandler';
 import { StatusCodes } from '../../errors.type';
 import { parseBoolean } from './common/boolean.parser';
 import { parsePassword } from './common/password.parser';
