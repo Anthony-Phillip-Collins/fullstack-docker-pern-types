@@ -1,6 +1,6 @@
 import { getError } from '../../../util/middleware/errorHandler';
 import { StatusCodes } from '../../errors.type';
-import { ReadingCreation, ReadingUpdate } from '../../reading.type';
+import { ReadingCreation, ReadingQuery, ReadingUpdate } from '../../reading.type';
 import { parseBoolean } from './common/boolean.parser';
 import { parseNumber } from './common/number.parser';
 
@@ -45,4 +45,16 @@ export const parseReadingUpdate = (obj: unknown): ReadingUpdate => {
   };
 
   return reading;
+};
+
+export const isReadingQuery = (object: unknown): object is ReadingQuery => {
+  if (!object || typeof object !== 'object') {
+    return false;
+  }
+  const optional = ['read'];
+  return optional.filter((p) => p in object).length > 0;
+};
+
+export const parseReadingQuery = (object: unknown): ReadingQuery => {
+  return isReadingQuery(object) ? object : {};
 };

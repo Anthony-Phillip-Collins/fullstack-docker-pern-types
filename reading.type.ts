@@ -7,5 +7,11 @@ export interface ReadingAttributes {
   blogId: BlogAttributes['id'];
   read: boolean;
 }
+
 export type ReadingCreation = Pick<ReadingAttributes, 'userId' | 'blogId'>;
+
 export type ReadingUpdate = Pick<ReadingAttributes, 'read'>;
+
+export interface ReadingQuery {
+  read?: string;
+}

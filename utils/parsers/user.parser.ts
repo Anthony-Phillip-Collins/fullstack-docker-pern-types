@@ -1,4 +1,10 @@
-import { UserCreateInput, UserLogin, UserUpdateAsAdminInput, UserUpdateAsUserInput } from '../../../types/user.type';
+import {
+  UserCreateInput,
+  UserLogin,
+  UserQuery,
+  UserUpdateAsAdminInput,
+  UserUpdateAsUserInput,
+} from '../../../types/user.type';
 import { getError } from '../../../util/middleware/errorHandler';
 import { StatusCodes } from '../../errors.type';
 import { parseBoolean } from './common/boolean.parser';
@@ -106,4 +112,16 @@ export const parseUserLogin = (object: unknown): UserLogin => {
   };
 
   return loginFields;
+};
+
+export const isUserQuery = (object: unknown): object is UserQuery => {
+  if (!object || typeof object !== 'object') {
+    return false;
+  }
+  const optional = ['read'];
+  return optional.filter((p) => p in object).length > 0;
+};
+
+export const parseUserQuery = (object: unknown): UserQuery => {
+  return isUserQuery(object) ? object : {};
 };

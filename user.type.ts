@@ -37,3 +37,7 @@ export interface UserWithToken extends UserForToken {
 }
 
 export type UserLogin = Pick<UserCreateInput, 'username' | 'password'>;
+
+export interface UserQuery {
+  read?: string;
+}
