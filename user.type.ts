@@ -33,7 +33,8 @@ export type UserUpdateAsUserInput = Partial<Omit<UserUpdateAsUser, 'hashedPasswo
 
 export type UserForToken = Pick<UserAttributes, 'username' | 'name'>;
 export interface UserWithToken extends UserForToken {
-  token: string;
+  accessToken: string;
+  refreshToken: string;
 }
 
 export type UserLogin = Pick<UserCreateInput, 'username' | 'password'>;

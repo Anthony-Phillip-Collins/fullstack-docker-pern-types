@@ -1,5 +1,6 @@
 import {
   UserCreateInput,
+  UserForToken,
   UserLogin,
   UserQuery,
   UserUpdateAsAdminInput,
@@ -124,4 +125,26 @@ export const isUserQuery = (object: unknown): object is UserQuery => {
 
 export const parseUserQuery = (object: unknown): UserQuery => {
   return isUserQuery(object) ? object : {};
+};
+
+export const isUserForToken = (object: unknown): object is UserForToken => {
+  if (!object || typeof object !== 'object') {
+    return false;
+  }
+
+  const mandatory = ['username', 'name'];
+  return mandatory.filter((p) => p in object).length === mandatory.length;
+};
+
+export const parseUserForToken = (object: unknown): UserForToken => {
+  if (!isUserForToken(object)) {
+    throw getError({ message: 'UserForToken data is missing.', status: StatusCodes.BAD_REQUEST });
+  }
+
+  const userForToken: UserForToken = {
+    username: parseString(object.username, 'username'),
+    name: parseString(object.name, 'name'),
+  };
+
+  return userForToken;
 };
