@@ -1,5 +1,5 @@
-import { getError } from '../../../../util/middleware/errorHandler';
 import { StatusCodes } from '../../../errors.type';
+import getError from '../../getError';
 
 export const isBoolean = (value: unknown): value is boolean => {
   let isBoolean = typeof value === 'boolean';

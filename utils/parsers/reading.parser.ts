@@ -1,6 +1,6 @@
-import { getError } from '../../../util/middleware/errorHandler';
 import { StatusCodes } from '../../errors.type';
 import { ReadingCreation, ReadingQuery, ReadingUpdate } from '../../reading.type';
+import getError from '../getError';
 import { parseBoolean } from './common/boolean.parser';
 import { parseNumber } from './common/number.parser';
 

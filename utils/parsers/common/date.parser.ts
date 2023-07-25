@@ -1,5 +1,5 @@
-import { getError } from '../../../../util/middleware/errorHandler';
 import { StatusCodes } from '../../../errors.type';
+import getError from '../../getError';
 import { isString } from './string.parser';
 
 const hasDateFormat = (value: string): boolean => {

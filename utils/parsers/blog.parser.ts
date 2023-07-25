@@ -1,6 +1,6 @@
-import { getError } from '../../../util/middleware/errorHandler';
 import { BlogCreation, BlogQuery, BlogUpdate } from '../../blog.type';
 import { StatusCodes } from '../../errors.type';
+import getError from '../getError';
 import { parseNumber } from './common/number.parser';
 import { parseString } from './common/string.parser';
 

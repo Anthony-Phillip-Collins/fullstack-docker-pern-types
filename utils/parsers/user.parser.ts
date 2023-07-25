@@ -6,8 +6,8 @@ import {
   UserUpdateAsAdminInput,
   UserUpdateAsUserInput,
 } from '../../../types/user.type';
-import { getError } from '../../../util/middleware/errorHandler';
 import { StatusCodes } from '../../errors.type';
+import getError from '../getError';
 import { parseBoolean } from './common/boolean.parser';
 import { parsePassword } from './common/password.parser';
 import { parseString } from './common/string.parser';

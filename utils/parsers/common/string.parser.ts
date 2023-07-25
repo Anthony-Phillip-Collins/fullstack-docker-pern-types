@@ -1,5 +1,5 @@
-import { getError } from '../../../../util/middleware/errorHandler';
 import { StatusCodes } from '../../../errors.type';
+import getError from '../../getError';
 
 export const isString = (text: unknown): text is string => {
   return typeof text === 'string' || text instanceof String;
