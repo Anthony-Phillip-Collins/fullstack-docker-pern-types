@@ -12,7 +12,7 @@ export interface BlogAttributes {
   ownerId?: UserAttributes['id'];
 }
 export type BlogCreation = Omit<BlogAttributes, 'id'>;
-export type BlogUpdate = Pick<BlogAttributes, 'likes'>;
+export type BlogUpdate = Partial<Pick<BlogAttributes, 'title' | 'author' | 'url'>>;
 
 export interface BlogQuery {
   search?: string;
