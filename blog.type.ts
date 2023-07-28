@@ -19,7 +19,7 @@ export type ReadersAttributes = Pick<UserAttributes, 'name'> & {
   reading: Pick<ReadingAttributes, 'read'>;
 };
 
-export type OwnerAttributes = Pick<UserAttributes, 'name'>;
+export type OwnerAttributes = Pick<UserAttributes, 'name' | 'username'>;
 
 export type BlogCreation = Omit<BlogAttributes, 'id' | 'owner'>;
 export type BlogUpdate = Partial<Pick<BlogAttributes, 'title' | 'author' | 'url'>>;
