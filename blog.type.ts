@@ -1,3 +1,4 @@
+import { ReadingAttributes } from './reading.type';
 import { UserAttributes } from './user.type';
 
 export interface BlogAttributes {
@@ -10,8 +11,17 @@ export interface BlogAttributes {
   createdAt?: Date;
   updatedAt?: Date;
   ownerId?: UserAttributes['id'];
+  owner?: OwnerAttributes;
+  readers?: ReadersAttributes[];
 }
-export type BlogCreation = Omit<BlogAttributes, 'id'>;
+
+export type ReadersAttributes = Pick<UserAttributes, 'name'> & {
+  reading: Pick<ReadingAttributes, 'read'>;
+};
+
+export type OwnerAttributes = Pick<UserAttributes, 'name'>;
+
+export type BlogCreation = Omit<BlogAttributes, 'id' | 'owner'>;
 export type BlogUpdate = Partial<Pick<BlogAttributes, 'title' | 'author' | 'url'>>;
 
 export interface BlogQuery {

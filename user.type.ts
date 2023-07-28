@@ -1,4 +1,5 @@
 import { BlogAttributes } from './blog.type';
+import { ReadingAttributes } from './reading.type';
 
 export interface UserAttributes {
   id: number;
@@ -10,10 +11,15 @@ export interface UserAttributes {
   createdAt?: Date;
   updatedAt?: Date;
   blogs?: BlogAttributes[];
+  readings?: Readings;
 }
 
 type Mandatory = Pick<UserAttributes, 'username' | 'name' | 'hashedPassword'>;
 type Optional = Partial<Pick<UserAttributes, 'admin' | 'disabled'>>;
+
+type Readings = Pick<BlogAttributes, 'id' | 'title' | 'author' | 'url' | 'likes'> & {
+  reading: Pick<ReadingAttributes, 'read' | 'id'>;
+};
 
 export type UserCreate = Mandatory & Optional;
 
