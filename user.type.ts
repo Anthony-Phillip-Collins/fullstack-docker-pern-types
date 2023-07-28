@@ -11,7 +11,7 @@ export interface UserAttributes {
   createdAt?: Date;
   updatedAt?: Date;
   blogs?: BlogAttributes[];
-  readings?: Readings;
+  readings?: Readings[];
 }
 
 type Mandatory = Pick<UserAttributes, 'username' | 'name' | 'hashedPassword'>;
