@@ -9,6 +9,7 @@ import {
 import { StatusCodes } from '../../errors.type';
 import getError from '../getError';
 import { parseBoolean } from './common/boolean.parser';
+import { parseNumber } from './common/number.parser';
 import { parsePassword } from './common/password.parser';
 import { parseString } from './common/string.parser';
 
@@ -132,7 +133,7 @@ export const isUserForToken = (object: unknown): object is UserForToken => {
     return false;
   }
 
-  const mandatory = ['username', 'name'];
+  const mandatory = ['username', 'name', 'id'];
   return mandatory.filter((p) => p in object).length === mandatory.length;
 };
 
@@ -144,6 +145,7 @@ export const parseUserForToken = (object: unknown): UserForToken => {
   const userForToken: UserForToken = {
     username: parseString(object.username, 'username'),
     name: parseString(object.name, 'name'),
+    id: parseNumber(object.id, 'id'),
   };
 
   return userForToken;
