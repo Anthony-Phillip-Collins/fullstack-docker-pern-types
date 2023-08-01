@@ -17,7 +17,7 @@ export interface UserAttributes {
 type Mandatory = Pick<UserAttributes, 'username' | 'name' | 'hashedPassword'>;
 type Optional = Partial<Pick<UserAttributes, 'admin' | 'disabled'>>;
 
-type Readings = Pick<BlogAttributes, 'id' | 'title' | 'author' | 'url' | 'likes'> & {
+export type Readings = Pick<BlogAttributes, 'id' | 'title' | 'author' | 'url' | 'likes'> & {
   reading: Pick<ReadingAttributes, 'read' | 'id'>;
 };
 
