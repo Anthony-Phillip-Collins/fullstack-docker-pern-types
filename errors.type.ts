@@ -26,10 +26,6 @@ export enum ErrorNames {
   NotInTestMode = 'NotInTestMode',
 }
 
-export interface ErrorResponse {
-  error: Error;
-}
-
 export interface ErrorBody {
   message: string;
   status: number;
