@@ -19,16 +19,19 @@ export enum ErrorNames {
   NotFound = 'NotFound',
   CastError = 'CastError',
   ValidationError = 'ValidationError',
-  JsonWebTokenError = 'JsonWebTokenError',
+  JsonWebTokenError = 'JsonWebTokenError', // jwt error
+  TokenExpiredError = 'TokenExpiredError', // jwt error
+  NotBeforeError = 'NotBeforeError', // jwt error
   Unauthorized = 'Unauthorized',
   NotInTestMode = 'NotInTestMode',
 }
 
 export interface ErrorResponse {
-  error: { message: string };
+  error: Error;
 }
 
 export interface ErrorBody {
   message: string;
   status: number;
+  name?: string;
 }

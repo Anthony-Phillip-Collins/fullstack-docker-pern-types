@@ -1,13 +1,13 @@
 import { ErrorBody, ErrorNames } from '../errors.type';
-import { isObject } from './parsers/common/object.parser';
+import { getDefaultError, parseError } from './parsers/error.parser';
 
 const getError = (error: ErrorBody | ErrorNames): Error => {
-  const e = new Error();
-  if (isObject(error)) {
-    e.message = error.message;
-    e.status = error.status;
-  } else {
+  let e = new Error();
+
+  if (typeof error === 'string') {
     e.name = error;
+  } else {
+    e = parseError(error) || getDefaultError();
   }
   return e;
 };
