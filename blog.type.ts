@@ -15,7 +15,7 @@ export interface BlogAttributes {
   readers?: ReadersAttributes[];
 }
 
-export type ReadersAttributes = Pick<UserAttributes, 'name'> & {
+export type ReadersAttributes = Pick<UserAttributes, 'name' | 'id'> & {
   reading: Pick<ReadingAttributes, 'read'>;
 };
 
