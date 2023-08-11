@@ -24,10 +24,11 @@ export enum ErrorNames {
   NotBeforeError = 'NotBeforeError', // jwt error
   Unauthorized = 'Unauthorized',
   NotInTestMode = 'NotInTestMode',
+  UserDisabled = 'UserDisabled',
 }
 
 export interface ErrorBody {
   message: string;
   status: number;
-  name?: string;
+  name?: string | ErrorNames;
 }
