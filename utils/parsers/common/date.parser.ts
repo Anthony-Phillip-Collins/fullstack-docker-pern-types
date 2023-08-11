@@ -21,9 +21,9 @@ export const isDate = (value: string): boolean => {
 
 export const parseDate = (value: unknown, prop?: unknown): string => {
   if (!value || !isString(value) || !isDate(value)) {
-    let errorMessage = `The value provided is not a date: "${value}"`;
+    let errorMessage = `The value provided is not a date!`;
     if (prop && isString(prop)) {
-      errorMessage = `The value of ${prop} is invalid: "${value}"`;
+      errorMessage = `The value of ${prop} is invalid!`;
     }
     throw getError({ message: errorMessage, status: StatusCodes.BAD_REQUEST });
   }

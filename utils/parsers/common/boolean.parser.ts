@@ -17,9 +17,9 @@ export const parseBoolean = (value: unknown, prop?: unknown, silent?: boolean): 
   if (silent) return isBool;
 
   if (!isBool) {
-    let message = `The value provided is not a boolean: "${value}"`;
+    let message = `The value provided is not a boolean!`;
     if (prop) {
-      message = `The value of ${prop} is invalid: "${value}"`;
+      message = `The value of ${prop} is invalid!`;
     }
     throw getError({ message, status: StatusCodes.BAD_REQUEST });
   }
