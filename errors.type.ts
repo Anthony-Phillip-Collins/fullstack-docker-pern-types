@@ -32,3 +32,7 @@ export interface ErrorBody {
   status: number;
   name?: string | ErrorNames;
 }
+
+export interface ErrorResponse {
+  error: Error;
+}
