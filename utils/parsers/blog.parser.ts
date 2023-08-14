@@ -3,12 +3,11 @@ import { StatusCodes } from '../../errors.type';
 import getError from '../getError';
 import { parseBatch } from './batch.parser';
 import { parseNumber } from './common/number.parser';
+import { isObject } from './common/object.parser';
 import { parseString } from './common/string.parser';
 
 export const isNewBlog = (object: unknown): object is BlogCreation => {
-  if (!object || typeof object !== 'object') {
-    throw getError({ message: 'Blog data is missing.', status: StatusCodes.BAD_REQUEST });
-  }
+  if (!isObject(object)) return false;
   const mandatory = ['author', 'title', 'url', 'likes', 'year'];
   return mandatory.filter((p) => p in object).length === mandatory.length;
 };
@@ -32,25 +31,11 @@ export const parseNewBlog = (object: unknown): BlogCreation => {
     { message: 'Some BlogFields are invalid.', name: 'BlogFieldsError' }
   );
 
-  const newBlog: BlogCreation = {
-    ...object,
-  };
-
-  // const newBlog: BlogCreation = {
-  //   author: parseString(object.author, 'author'),
-  //   title: parseString(object.title, 'title'),
-  //   url: parseString(object.url, 'url'),
-  //   likes: parseNumber(object.likes, 'likes'),
-  //   year: parseNumber(object.year, 'year'),
-  // };
-
-  return newBlog;
+  return object;
 };
 
 export const isUpdateBlog = (object: unknown): object is BlogUpdate => {
-  if (!object || typeof object !== 'object') {
-    throw getError({ message: 'Blog data is missing.', status: StatusCodes.BAD_REQUEST });
-  }
+  if (!isObject(object)) return false;
   const optional = ['title', 'author', 'url'];
   return optional.filter((p) => p in object).length >= 1;
 };
@@ -74,9 +59,7 @@ export const parseUpdateBlog = (object: unknown): BlogUpdate => {
 };
 
 export const isBlogQuery = (object: unknown): object is BlogQuery => {
-  if (!object || typeof object !== 'object') {
-    return false;
-  }
+  if (!isObject(object)) return false;
   const optional = ['search'];
   return optional.filter((p) => p in object).length > 0;
 };

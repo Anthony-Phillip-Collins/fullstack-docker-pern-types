@@ -7,7 +7,7 @@ export const isPassword = (text: unknown): text is string => {
 };
 
 export const parsePassword = (value: unknown): string => {
-  if (!value || !isPassword(value)) {
+  if (!isPassword(value)) {
     throw getError({
       message: 'Password not accepted. It has to be at least 3 characters long!',
       name: ErrorNames.ValidationError,

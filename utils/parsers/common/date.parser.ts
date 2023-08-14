@@ -20,7 +20,7 @@ export const isDate = (value: string): boolean => {
 };
 
 export const parseDate = (value: unknown, path?: string): string => {
-  if (!value || !isString(value) || !isDate(value)) {
+  if (!isString(value) || !isDate(value)) {
     let message = `The value provided is not a date!`;
     if (path) {
       message = `The value of ${path} is invalid!`;

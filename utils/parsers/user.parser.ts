@@ -11,15 +11,14 @@ import getError from '../getError';
 import { parseBatch } from './batch.parser';
 import { parseBoolean } from './common/boolean.parser';
 import { parseNumber } from './common/number.parser';
+import { isObject } from './common/object.parser';
 import { parsePassword } from './common/password.parser';
 import { parseString } from './common/string.parser';
 
 /* Create User */
 
 export const isUserCreateInput = (object: unknown): object is UserCreateInput => {
-  if (!object || typeof object !== 'object') {
-    throw getError({ message: 'UserField data is missing.', status: StatusCodes.BAD_REQUEST });
-  }
+  if (!isObject(object)) return false;
   const mandatory = ['username', 'name', 'password'];
   return mandatory.filter((p) => p in object).length === mandatory.length;
 };
@@ -43,27 +42,13 @@ export const parseUserCreateInput = (object: unknown): UserCreateInput => {
     { message: 'Some UserFields are invalid.', name: 'UserFieldsError' }
   );
 
-  const newUser: UserCreateInput = {
-    ...object,
-  };
-
-  // const newUser: UserCreateInput = {
-  //   username: parseString(object.username, 'username'),
-  //   name: parseString(object.name, 'name'),
-  //   password: parsePassword(object.password),
-  //   admin: parseBoolean(object.admin, 'admin', true),
-  //   disabled: parseBoolean(object.disabled, 'disabled', true),
-  // };
-
-  return newUser;
+  return object;
 };
 
 /* Update User as User */
 
 export const isUserUpdateAsUserInput = (object: unknown): object is UserUpdateAsUserInput => {
-  if (!object || typeof object !== 'object') {
-    throw getError({ message: 'User data is missing.', status: StatusCodes.BAD_REQUEST });
-  }
+  if (!isObject(object)) return false;
   const optional = ['name', 'password'];
   return optional.filter((p) => p in object).length > 0;
 };
@@ -84,9 +69,7 @@ export const parseUserUpdateAsUserInput = (object: unknown): UserUpdateAsUserInp
 /* Update User as Admin */
 
 export const isUserUpdateAsAdminInput = (object: unknown): object is UserUpdateAsAdminInput => {
-  if (!object || typeof object !== 'object') {
-    throw getError({ message: 'User data is missing.', status: StatusCodes.BAD_REQUEST });
-  }
+  if (!isObject(object)) return false;
   const optional = ['name', 'password', 'admin', 'disabled'];
   return optional.filter((p) => p in object).length > 0;
 };
@@ -112,9 +95,7 @@ export const parseUserUpdateAsAdminInput = (object: unknown): UserUpdateAsAdminI
 /* Login */
 
 export const isUserLogin = (object: unknown): object is UserLogin => {
-  if (!object || typeof object !== 'object') {
-    throw getError({ message: 'Login data is missing.', status: StatusCodes.BAD_REQUEST });
-  }
+  if (!isObject(object)) return false;
   const mandatory = ['username', 'password'];
   return mandatory.filter((p) => p in object).length === mandatory.length;
 };
@@ -133,9 +114,7 @@ export const parseUserLogin = (object: unknown): UserLogin => {
 };
 
 export const isUserQuery = (object: unknown): object is UserQuery => {
-  if (!object || typeof object !== 'object') {
-    return false;
-  }
+  if (!isObject(object)) return false;
   const optional = ['read'];
   return optional.filter((p) => p in object).length > 0;
 };
@@ -145,10 +124,7 @@ export const parseUserQuery = (object: unknown): UserQuery => {
 };
 
 export const isUserForToken = (object: unknown): object is UserForToken => {
-  if (!object || typeof object !== 'object') {
-    return false;
-  }
-
+  if (!isObject(object)) return false;
   const mandatory = ['username', 'name', 'id'];
   return mandatory.filter((p) => p in object).length === mandatory.length;
 };

@@ -3,15 +3,16 @@ import { ReadingCreation, ReadingQuery, ReadingUpdate } from '../../reading.type
 import getError from '../getError';
 import { parseBoolean } from './common/boolean.parser';
 import { parseNumber } from './common/number.parser';
+import { isObject } from './common/object.parser';
 
-const isReadingCreation = (obj: unknown): obj is ReadingCreation => {
-  if (!obj || typeof obj !== 'object') return false;
+const isReadingCreation = (object: unknown): object is ReadingCreation => {
+  if (!isObject(object)) return false;
   const mandatory = ['userId', 'blogId'];
-  return mandatory.filter((p) => p in obj).length === mandatory.length;
+  return mandatory.filter((p) => p in object).length === mandatory.length;
 };
 
-export const parseReadingCreation = (obj: unknown): ReadingCreation => {
-  if (!isReadingCreation(obj)) {
+export const parseReadingCreation = (object: unknown): ReadingCreation => {
+  if (!isReadingCreation(object)) {
     throw getError({
       message: 'Some Reading data fields are missing. Needs userId and blogId.',
       status: StatusCodes.BAD_REQUEST,
@@ -19,21 +20,21 @@ export const parseReadingCreation = (obj: unknown): ReadingCreation => {
   }
 
   const reading: ReadingCreation = {
-    userId: parseNumber(obj.userId, 'userId'),
-    blogId: parseNumber(obj.blogId, 'blogId'),
+    userId: parseNumber(object.userId, 'userId'),
+    blogId: parseNumber(object.blogId, 'blogId'),
   };
 
   return reading;
 };
 
-const isReadingUpdate = (obj: unknown): obj is ReadingUpdate => {
-  if (!obj || typeof obj !== 'object') return false;
+const isReadingUpdate = (object: unknown): object is ReadingUpdate => {
+  if (!isObject(object)) return false;
   const mandatory = ['read'];
-  return mandatory.filter((p) => p in obj).length === mandatory.length;
+  return mandatory.filter((p) => p in object).length === mandatory.length;
 };
 
-export const parseReadingUpdate = (obj: unknown): ReadingUpdate => {
-  if (!isReadingUpdate(obj)) {
+export const parseReadingUpdate = (object: unknown): ReadingUpdate => {
+  if (!isReadingUpdate(object)) {
     throw getError({
       message: 'Only read can be updated.',
       status: StatusCodes.BAD_REQUEST,
@@ -41,16 +42,14 @@ export const parseReadingUpdate = (obj: unknown): ReadingUpdate => {
   }
 
   const reading: ReadingUpdate = {
-    read: parseBoolean(obj.read, 'read'),
+    read: parseBoolean(object.read, 'read'),
   };
 
   return reading;
 };
 
 export const isReadingQuery = (object: unknown): object is ReadingQuery => {
-  if (!object || typeof object !== 'object') {
-    return false;
-  }
+  if (!isObject(object)) return false;
   const optional = ['read'];
   return optional.filter((p) => p in object).length > 0;
 };
