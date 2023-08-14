@@ -19,13 +19,13 @@ export const isDate = (value: string): boolean => {
   return !!value && Boolean(Date.parse(value)) && hasDateFormat(value);
 };
 
-export const parseDate = (value: unknown, prop?: unknown): string => {
+export const parseDate = (value: unknown, path?: string): string => {
   if (!value || !isString(value) || !isDate(value)) {
-    let errorMessage = `The value provided is not a date!`;
-    if (prop && isString(prop)) {
-      errorMessage = `The value of ${prop} is invalid!`;
+    let message = `The value provided is not a date!`;
+    if (path) {
+      message = `The value of ${path} is invalid!`;
     }
-    throw getError({ message: errorMessage, status: StatusCodes.BAD_REQUEST });
+    throw getError({ message, status: StatusCodes.BAD_REQUEST, path });
   }
   return value;
 };

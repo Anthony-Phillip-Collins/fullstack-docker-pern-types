@@ -5,13 +5,13 @@ export const isString = (text: unknown): text is string => {
   return typeof text === 'string' || text instanceof String;
 };
 
-export const parseString = (value: unknown, prop?: unknown): string => {
+export const parseString = (value: unknown, path?: string): string => {
   if (!value || !isString(value)) {
     let message = `The value provided is not a string`;
-    if (prop && isString(prop)) {
-      message = `The value of ${prop} is invalid!`;
+    if (path) {
+      message = `The value of ${path} is invalid!`;
     }
-    throw getError({ message, status: StatusCodes.BAD_REQUEST });
+    throw getError({ message, status: StatusCodes.BAD_REQUEST, path });
   }
   return value;
 };

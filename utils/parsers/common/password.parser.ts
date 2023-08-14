@@ -11,6 +11,7 @@ export const parsePassword = (value: unknown): string => {
     throw getError({
       message: 'Password not accepted. It has to be at least 3 characters long!',
       status: StatusCodes.BAD_REQUEST,
+      path: 'password',
     });
   }
   return value;

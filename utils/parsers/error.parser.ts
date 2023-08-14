@@ -12,34 +12,45 @@ const hasErrorProps = (object: unknown): object is Error => {
 };
 
 export const getDefaultError = () => {
-  const error = new Error('Something went wrong');
+  const error = new Error('Something went wrong!');
   error.name = 'Error';
   error.status = 500;
   return error;
 };
 
+/*
+ * returns an instance of Error or null
+ */
 export const parseError = (error: unknown): Error | null => {
-  let parsedError = getDefaultError();
+  let parsedError: Error | null = null;
+
+  const merge = (target: Error, { message, name, status, path, errors }: Error) => {
+    if (message) target.message = message;
+    if (name) target.name = name;
+    if (status) target.status = status;
+    if (path) target.path = path;
+    if (errors) target.errors = errors;
+    return target;
+  };
 
   if (error instanceof Error) {
-    error.name = error.name || parsedError.name;
-    error.status = error.status || parsedError.status;
     parsedError = error;
   } else if (hasErrorProps(error)) {
-    const e = new Error();
-    e.message = error.message || parsedError.message;
-    e.name = error.name || parsedError.name;
-    e.status = error.status || parsedError.status;
-    parsedError = e;
+    parsedError = merge(new Error(), error);
   } else if (typeof error === 'string') {
-    const e = new Error();
-    e.message = error;
-    e.name = parsedError.name;
-    e.status = parsedError.status;
-    parsedError = e;
+    parsedError = new Error(error);
   } else if (!error) {
     return null;
   }
 
   return parsedError;
+};
+
+/*
+ * returns and object with the same properties as Error or null
+ */
+export const serializeError = (error: Error | null): Error | null => {
+  const serialized = parseError(error);
+  if (!serialized) return null;
+  return { ...serialized };
 };

@@ -1,6 +1,7 @@
 import { BlogCreation, BlogQuery, BlogUpdate } from '../../blog.type';
 import { StatusCodes } from '../../errors.type';
 import getError from '../getError';
+import { parseBatch } from './batch.parser';
 import { parseNumber } from './common/number.parser';
 import { parseString } from './common/string.parser';
 
@@ -20,13 +21,28 @@ export const parseNewBlog = (object: unknown): BlogCreation => {
     });
   }
 
+  parseBatch(
+    [
+      () => parseString(object.author, 'author'),
+      () => parseString(object.title, 'title'),
+      () => parseString(object.url, 'url'),
+      () => parseNumber(object.likes, 'likes'),
+      () => parseNumber(object.year, 'year'),
+    ],
+    { message: 'Some BlogFields are invalid.', name: 'BlogFieldsError' }
+  );
+
   const newBlog: BlogCreation = {
-    author: parseString(object.author, 'author'),
-    title: parseString(object.title, 'title'),
-    url: parseString(object.url, 'url'),
-    likes: parseNumber(object.likes, 'likes'),
-    year: parseNumber(object.year, 'year'),
+    ...object,
   };
+
+  // const newBlog: BlogCreation = {
+  //   author: parseString(object.author, 'author'),
+  //   title: parseString(object.title, 'title'),
+  //   url: parseString(object.url, 'url'),
+  //   likes: parseNumber(object.likes, 'likes'),
+  //   year: parseNumber(object.year, 'year'),
+  // };
 
   return newBlog;
 };

@@ -25,12 +25,14 @@ export enum ErrorNames {
   Unauthorized = 'Unauthorized',
   NotInTestMode = 'NotInTestMode',
   UserDisabled = 'UserDisabled',
+  SequelizeValidationError = 'SequelizeValidationError',
 }
 
 export interface ErrorBody {
   message: string;
   status: number;
   name?: string | ErrorNames;
+  path?: Error['path'];
 }
 
 export interface ErrorResponse {

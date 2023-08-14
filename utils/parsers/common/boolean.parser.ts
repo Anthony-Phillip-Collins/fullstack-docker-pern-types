@@ -11,17 +11,17 @@ export const isBoolean = (value: unknown): value is boolean => {
   return isBoolean;
 };
 
-export const parseBoolean = (value: unknown, prop?: unknown, silent?: boolean): boolean => {
+export const parseBoolean = (value: unknown, path?: string, silent?: boolean): boolean => {
   const isBool = isBoolean(value);
 
   if (silent) return isBool;
 
   if (!isBool) {
     let message = `The value provided is not a boolean!`;
-    if (prop) {
-      message = `The value of ${prop} is invalid!`;
+    if (path) {
+      message = `The value of ${path} is invalid!`;
     }
-    throw getError({ message, status: StatusCodes.BAD_REQUEST });
+    throw getError({ message, status: StatusCodes.BAD_REQUEST, path });
   }
   return value;
 };

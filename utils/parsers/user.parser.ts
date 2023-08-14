@@ -8,6 +8,7 @@ import {
 } from '../../../types/user.type';
 import { StatusCodes } from '../../errors.type';
 import getError from '../getError';
+import { parseBatch } from './batch.parser';
 import { parseBoolean } from './common/boolean.parser';
 import { parseNumber } from './common/number.parser';
 import { parsePassword } from './common/password.parser';
@@ -31,13 +32,28 @@ export const parseUserCreateInput = (object: unknown): UserCreateInput => {
     });
   }
 
+  parseBatch(
+    [
+      () => parseString(object.username, 'username'),
+      () => parseString(object.name, 'name'),
+      () => parsePassword(object.password),
+      () => parseBoolean(object.admin, 'admin', true),
+      () => parseBoolean(object.disabled, 'disabled', true),
+    ],
+    { message: 'Some UserFields are invalid.', name: 'UserFieldsError' }
+  );
+
   const newUser: UserCreateInput = {
-    username: parseString(object.username, 'username'),
-    name: parseString(object.name, 'name'),
-    password: parsePassword(object.password),
-    admin: parseBoolean(object.admin, 'admin', true),
-    disabled: parseBoolean(object.disabled, 'disabled', true),
+    ...object,
   };
+
+  // const newUser: UserCreateInput = {
+  //   username: parseString(object.username, 'username'),
+  //   name: parseString(object.name, 'name'),
+  //   password: parsePassword(object.password),
+  //   admin: parseBoolean(object.admin, 'admin', true),
+  //   disabled: parseBoolean(object.disabled, 'disabled', true),
+  // };
 
   return newUser;
 };
