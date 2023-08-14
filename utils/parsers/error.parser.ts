@@ -24,7 +24,8 @@ export const getDefaultError = () => {
 export const parseError = (error: unknown): Error | null => {
   let parsedError: Error | null = null;
 
-  const merge = (target: Error, { message, name, status, path, errors }: Error) => {
+  const merge = (target: Error, error: Error) => {
+    const { message, name, status, path, errors } = error;
     if (message) target.message = message;
     if (name) target.name = name;
     if (status) target.status = status;

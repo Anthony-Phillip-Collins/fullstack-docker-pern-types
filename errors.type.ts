@@ -28,13 +28,6 @@ export enum ErrorNames {
   SequelizeValidationError = 'SequelizeValidationError',
 }
 
-export interface ErrorBody {
-  message: string;
-  status: number;
-  name?: string | ErrorNames;
-  path?: Error['path'];
-}
-
 export interface ErrorResponse {
   error: Error;
 }

@@ -1,4 +1,4 @@
-import { StatusCodes } from '../../../errors.type';
+import { ErrorNames } from '../../../errors.type';
 import getError from '../../getError';
 import { isString } from './string.parser';
 
@@ -10,7 +10,7 @@ export const parsePassword = (value: unknown): string => {
   if (!value || !isPassword(value)) {
     throw getError({
       message: 'Password not accepted. It has to be at least 3 characters long!',
-      status: StatusCodes.BAD_REQUEST,
+      name: ErrorNames.ValidationError,
       path: 'password',
     });
   }

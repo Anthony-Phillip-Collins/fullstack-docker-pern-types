@@ -1,4 +1,4 @@
-import { StatusCodes } from '../../../errors.type';
+import { ErrorNames } from '../../../errors.type';
 import getError from '../../getError';
 import { isString } from './string.parser';
 
@@ -25,7 +25,12 @@ export const parseDate = (value: unknown, path?: string): string => {
     if (path) {
       message = `The value of ${path} is invalid!`;
     }
-    throw getError({ message, status: StatusCodes.BAD_REQUEST, path });
+
+    throw getError({
+      message,
+      name: ErrorNames.ValidationError,
+      path,
+    });
   }
   return value;
 };

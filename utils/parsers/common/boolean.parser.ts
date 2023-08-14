@@ -1,4 +1,4 @@
-import { StatusCodes } from '../../../errors.type';
+import { ErrorNames } from '../../../errors.type';
 import getError from '../../getError';
 
 export const isBoolean = (value: unknown): value is boolean => {
@@ -21,7 +21,12 @@ export const parseBoolean = (value: unknown, path?: string, silent?: boolean): b
     if (path) {
       message = `The value of ${path} is invalid!`;
     }
-    throw getError({ message, status: StatusCodes.BAD_REQUEST, path });
+
+    throw getError({
+      message,
+      name: ErrorNames.ValidationError,
+      path,
+    });
   }
   return value;
 };
