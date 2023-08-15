@@ -1,3 +1,4 @@
+import { ErrorResponse } from '../../errors.type';
 import { isNumber } from './common/number.parser';
 import { isObject } from './common/object.parser';
 import { isString } from './common/string.parser';
@@ -54,4 +55,10 @@ export const serializeError = (error: Error | null): Error | null => {
   const serialized = parseError(error);
   if (!serialized) return null;
   return { ...serialized };
+};
+
+export const isErrorResponse = (object: unknown): object is ErrorResponse => {
+  if (!isObject(object)) return false;
+  const mandatory = ['error'];
+  return mandatory.filter((p) => p in object).length === mandatory.length;
 };

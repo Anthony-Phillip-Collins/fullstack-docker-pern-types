@@ -12,6 +12,8 @@ export const isNewBlog = (object: unknown): object is BlogCreation => {
   return mandatory.filter((p) => p in object).length === mandatory.length;
 };
 
+export const isBlog = isNewBlog;
+
 export const parseNewBlog = (object: unknown): BlogCreation => {
   if (!isNewBlog(object)) {
     throw getError({
@@ -28,7 +30,7 @@ export const parseNewBlog = (object: unknown): BlogCreation => {
       () => parseNumber(object.likes, 'likes'),
       () => parseNumber(object.year, 'year'),
     ],
-    { message: 'Some BlogFields are invalid.', name: 'BlogFieldsError' }
+    { message: 'Some BlogFields are invalid.', name: 'BlogFieldsError' },
   );
 
   return object;
