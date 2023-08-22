@@ -39,7 +39,7 @@ export const parseUserCreateInput = (object: unknown): UserCreateInput => {
       () => parseBoolean(object.admin, 'admin', true),
       () => parseBoolean(object.disabled, 'disabled', true),
     ],
-    { message: 'Some UserFields are invalid.', name: 'UserFieldsError' }
+    { message: 'Some UserFields are invalid.', name: 'UserFieldsError' },
   );
 
   return object;
