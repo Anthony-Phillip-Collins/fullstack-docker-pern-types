@@ -58,12 +58,14 @@ export const parseUserUpdateAsUserInput = (object: unknown): UserUpdateAsUserInp
     throw getError({ message: 'Only name and password can be updated.', status: StatusCodes.BAD_REQUEST });
   }
 
-  const updateUser: UserUpdateAsUserInput = {};
+  const batch = [];
 
-  if ('name' in object) updateUser.name = parseString(object.name, 'name');
-  if ('password' in object) updateUser.password = parsePassword(object.password);
+  if ('name' in object) batch.push(() => parseString(object.name, 'name'));
+  if ('password' in object) batch.push(() => parsePassword(object.password));
 
-  return updateUser;
+  parseBatch(batch, { message: 'Some UserFields are invalid.', name: 'UserFieldsError' });
+
+  return object;
 };
 
 /* Update User as Admin */
@@ -82,14 +84,16 @@ export const parseUserUpdateAsAdminInput = (object: unknown): UserUpdateAsAdminI
     });
   }
 
-  const updateUser: UserUpdateAsAdminInput = {};
+  const batch = [];
 
-  if ('name' in object) updateUser.name = parseString(object.name, 'name');
-  if ('password' in object) updateUser.password = parsePassword(object.password);
-  if ('admin' in object) updateUser.admin = parseBoolean(object.admin, 'admin');
-  if ('disabled' in object) updateUser.disabled = parseBoolean(object.disabled, 'disabled');
+  if ('name' in object) batch.push(() => parseString(object.name, 'name'));
+  if ('password' in object) batch.push(() => parsePassword(object.password));
+  if ('admin' in object) batch.push(() => parseBoolean(object.admin, 'admin'));
+  if ('disabled' in object) batch.push(() => parseBoolean(object.disabled, 'admin'));
 
-  return updateUser;
+  parseBatch(batch, { message: 'Some UserFields are invalid.', name: 'UserFieldsError' });
+
+  return object;
 };
 
 /* Login */

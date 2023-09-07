@@ -50,14 +50,15 @@ export const parseUpdateBlog = (object: unknown): BlogUpdate => {
     });
   }
 
-  const updateBlog: BlogUpdate = {
-    // likes: parseNumber(object.likes, 'likes'),
-    title: parseString(object.title, 'title'),
-    author: parseString(object.author, 'author'),
-    url: parseString(object.url, 'url'),
-  };
+  const batch = [];
 
-  return updateBlog;
+  if ('title' in object) batch.push(() => parseString(object.title, 'title'));
+  if ('author' in object) batch.push(() => parseString(object.author, 'author'));
+  if ('url' in object) batch.push(() => parseString(object.url, 'url'));
+
+  parseBatch(batch, { message: 'Some BlogFields are invalid.', name: 'BlogFieldsError' });
+
+  return object;
 };
 
 export const isBlogQuery = (object: unknown): object is BlogQuery => {
