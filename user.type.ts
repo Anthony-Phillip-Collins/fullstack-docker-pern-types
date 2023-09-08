@@ -12,6 +12,7 @@ export interface UserAttributes {
   updatedAt?: Date;
   blogs?: BlogAttributes[];
   readings?: Readings[];
+  likings?: Likings[];
 }
 
 type Mandatory = Pick<UserAttributes, 'username' | 'name' | 'hashedPassword'>;
@@ -20,6 +21,8 @@ type Optional = Partial<Pick<UserAttributes, 'admin' | 'disabled'>>;
 export type Readings = Pick<BlogAttributes, 'id' | 'title' | 'author' | 'url' | 'likes'> & {
   reading: Pick<ReadingAttributes, 'read' | 'id'>;
 };
+
+export type Likings = Omit<Readings, 'reading'>;
 
 export type UserCreate = Mandatory & Optional;
 

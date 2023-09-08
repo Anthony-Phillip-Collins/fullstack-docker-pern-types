@@ -13,7 +13,10 @@ export interface BlogAttributes {
   ownerId?: UserAttributes['id'];
   owner?: OwnerAttributes;
   readers?: ReadersAttributes[];
+  likers?: LikersAttributes[];
 }
+
+export type LikersAttributes = Pick<UserAttributes, 'name' | 'id'>;
 
 export type ReadersAttributes = Pick<UserAttributes, 'name' | 'id'> & {
   reading: Pick<ReadingAttributes, 'read'>;
