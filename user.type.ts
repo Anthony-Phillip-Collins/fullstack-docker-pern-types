@@ -1,4 +1,5 @@
 import { BlogAttributes } from './blog.type';
+import { LikeAttributes } from './like.type';
 import { ReadingAttributes } from './reading.type';
 
 export interface UserAttributes {
@@ -22,7 +23,9 @@ export type Readings = Pick<BlogAttributes, 'id' | 'title' | 'author' | 'url' | 
   reading: Pick<ReadingAttributes, 'read' | 'id'>;
 };
 
-export type Likings = Omit<Readings, 'reading'>;
+export type Likings = Omit<Readings, 'reading'> & {
+  like: Pick<LikeAttributes, 'id'>;
+};
 
 export type UserCreate = Mandatory & Optional;
 

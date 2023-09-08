@@ -1,3 +1,4 @@
+import { LikeAttributes } from './like.type';
 import { ReadingAttributes } from './reading.type';
 import { UserAttributes } from './user.type';
 
@@ -16,7 +17,9 @@ export interface BlogAttributes {
   likers?: LikersAttributes[];
 }
 
-export type LikersAttributes = Pick<UserAttributes, 'name' | 'id'>;
+export type LikersAttributes = Pick<UserAttributes, 'name' | 'id'> & {
+  like: Pick<LikeAttributes, 'id'>;
+};
 
 export type ReadersAttributes = Pick<UserAttributes, 'name' | 'id'> & {
   reading: Pick<ReadingAttributes, 'read'>;
